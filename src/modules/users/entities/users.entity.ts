@@ -17,8 +17,8 @@ export class IE_User {
   @Column({ nullable: true })
   factory: string;
 
-  @Column()
-  role: number;
+  @Column({ nullable: true })
+  role: string;
 
   @Column({ default: true })
   is_active: boolean;

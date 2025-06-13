@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/modules/users/users.service';
 
@@ -23,7 +23,7 @@ export class AuthService {
   async login(user: any) {
     const payload = { account: user.account, sub: user.id };
     return {
-      data: {
+      user: {
         id: user.id,
         name: user.name,
         account: user.account,

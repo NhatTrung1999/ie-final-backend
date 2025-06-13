@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import { CreateLoginDto } from '../dto/create-login.dto';
 import { Request } from 'express';
 
 @Injectable()
