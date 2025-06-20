@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IE_Video } from './entities/video.entity';
 import { Repository } from 'typeorm';
@@ -12,7 +12,6 @@ export class VideoService {
 
   async uploadVideo(body: CreateVideoDto, videos: Array<Express.Multer.File>) {
     const { date, season, stage, area, article, created_by } = body;
-    const response: IE_Video[] = [];
     for (const video of videos) {
       const existingVideo = await this.videosRepository.findOne({
         where: [{ video_name: video.originalname, video_path: video.path }],
@@ -34,11 +33,11 @@ export class VideoService {
         created_by,
         created_at: new Date(),
       });
-
-      const save = await this.videosRepository.save(newUploadVideo);
-      response.push(save);
+      await this.videosRepository.save(newUploadVideo);
     }
+  }
 
-    return response;
+  async getFindAllVideo(): Promise<IE_Video[]> {
+    return await this.videosRepository.find();
   }
 }

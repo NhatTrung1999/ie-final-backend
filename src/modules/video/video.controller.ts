@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Get,
   Post,
   UploadedFiles,
   UseInterceptors,
@@ -19,9 +21,20 @@ export class VideoController {
     @Body() body: CreateVideoDto,
     @UploadedFiles() videos: Array<Express.Multer.File>,
   ) {
-    const response = await this.videoService.uploadVideo(body, videos);
+    try {
+      await this.videoService.uploadVideo(body, videos);
+      return {
+        message: 'Upload is successfull!',
+      };
+    } catch (error: any) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  @Get()
+  async getFindAllVideo() {
+    const response = await this.videoService.getFindAllVideo();
     return {
-      message: 'Upload is successfull!',
       data: response,
     };
   }
