@@ -32,8 +32,8 @@ export class VideoController {
   }
 
   @Get()
-  async getFindAllVideo() {
-    const response = await this.videoService.getFindAllVideo();
+  async getVideo() {
+    const response = await this.videoService.getVideo();
     return {
       data: response,
     };

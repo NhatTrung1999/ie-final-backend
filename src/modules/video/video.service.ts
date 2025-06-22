@@ -37,7 +37,7 @@ export class VideoService {
     }
   }
 
-  async getFindAllVideo(): Promise<IE_Video[]> {
+  async getVideo(): Promise<IE_Video[]> {
     return await this.videosRepository.find();
   }
 }

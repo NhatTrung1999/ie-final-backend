@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IE_TableCT } from 'src/modules/tablect/entities/tablect.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('IE_Video')
 export class IE_Video {
   @PrimaryGeneratedColumn()
-  id_video: number;
+  id: number;
 
   @Column()
   date: Date;
@@ -31,4 +32,7 @@ export class IE_Video {
 
   @Column()
   created_at: Date;
+
+  @OneToMany(() => IE_TableCT, (tablect) => tablect.video)
+  tablects: IE_TableCT[];
 }

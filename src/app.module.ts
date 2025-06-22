@@ -7,6 +7,7 @@ import { JwtAuthGuard } from './auth/passport/jwt-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideoModule } from './modules/video/video.module';
+import { TablectModule } from './modules/tablect/tablect.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { VideoModule } from './modules/video/video.module';
       inject: [ConfigService],
     }),
     VideoModule,
+    TablectModule,
   ],
   controllers: [AppController],
   providers: [
