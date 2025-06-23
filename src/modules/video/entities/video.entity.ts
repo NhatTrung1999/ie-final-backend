@@ -1,5 +1,11 @@
 import { IE_TableCT } from 'src/modules/tablect/entities/tablect.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('IE_Video')
 export class IE_Video {
@@ -33,6 +39,6 @@ export class IE_Video {
   @Column()
   created_at: Date;
 
-  @OneToMany(() => IE_TableCT, (tablect) => tablect.video)
-  tablects: IE_TableCT[];
+  @OneToOne(() => IE_TableCT, (tablect) => tablect.video, { cascade: true })
+  tablect: IE_TableCT;
 }

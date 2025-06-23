@@ -4,6 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -12,7 +13,7 @@ export class IE_TableCT {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   id_video: number;
 
   @Column()
@@ -20,34 +21,23 @@ export class IE_TableCT {
 
   @Column()
   progress_stage_part_name: string;
-  @Column()
-  type: string;
 
-  @Column({
-    type: 'nvarchar',
-    transformer: {
-      to: (value: number[]) => JSON.stringify(value || []),
-      from: (value: string) => {
-        try {
-          return value ? JSON.parse(value) : [];
-        } catch (e) {
-          return [];
-        }
-      },
-    },
-  })
-  cts: number[];
+  @Column({ type: 'nvarchar', length: 'max' })
+  nva: string;
 
-  @Column()
-  average: number;
+  @Column({ type: 'nvarchar', length: 'max' })
+  va: string;
 
   @Column()
   confirm: string;
 
   @Column()
+  created_by: string;
+
+  @Column({ type: 'datetime', default: () => 'GETDATE()' })
   created_at: Date;
 
-  @ManyToOne(() => IE_Video, (video) => video.tablects)
+  @OneToOne(() => IE_Video, (video) => video.tablect)
   @JoinColumn({ name: 'id_video' })
   video: IE_Video;
 }

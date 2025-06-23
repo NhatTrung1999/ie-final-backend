@@ -1,26 +1,9 @@
-// import {
-//   IsNotEmpty,
-//   IsNumber,
-//   IsString,
-//   IsArray,
-//   IsOptional,
-//   IsDate,
-// } from 'class-validator';
-
 export class CreateTablectDto {
   id_video: number;
-
   no: string;
-
   progress_stage_part_name: string;
-
-  type: string;
-
-  cts: number[];
-
-  average: number;
-
+  nva: string;
+  va: string;
   confirm: string;
-
-  created_at: Date;
+  created_by: string;
 }

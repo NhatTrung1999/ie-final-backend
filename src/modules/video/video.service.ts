@@ -29,7 +29,7 @@ export class VideoService {
         area,
         article,
         video_name: video.originalname,
-        video_path: video.path,
+        video_path: `http://localhost:3000/${video.path}`,
         created_by,
         created_at: new Date(),
       });
