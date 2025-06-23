@@ -48,7 +48,7 @@ import { CreateVideoDto } from './dto/create-video.dto';
           article,
         );
         const fullPathToExistingFile = path.join(uploadDir, file.originalname);
-        if (!file.originalname.match(/\.(mp4|avi|mkv|mov|flv|wmv)$/)) {
+        if (!file.originalname.match(/\.(mp4|avi|mkv|mov|flv|wmv|MOV)$/)) {
           return cb(new Error('Chỉ cho phép định dạng video!'), false);
         }
         if (fs.existsSync(fullPathToExistingFile)) {
