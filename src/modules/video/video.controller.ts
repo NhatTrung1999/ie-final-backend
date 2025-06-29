@@ -2,7 +2,9 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UploadedFiles,
   UseInterceptors,
@@ -21,10 +23,13 @@ export class VideoController {
     @Body() body: CreateVideoDto,
     @UploadedFiles() videos: Array<Express.Multer.File>,
   ) {
+    // console.log(body, videos);
     try {
-      await this.videoService.uploadVideo(body, videos);
+      const response = await this.videoService.uploadVideo(body, videos);
       return {
-        message: 'Upload is successfull!',
+        message: 'Upload video is successfull!',
+        status: 200,
+        data: response,
       };
     } catch (error: any) {
       throw new BadRequestException(error);
@@ -35,7 +40,21 @@ export class VideoController {
   async getVideo() {
     const response = await this.videoService.getVideo();
     return {
+      status: 200,
       data: response,
     };
+  }
+
+  @Delete(':id')
+  async deleteVideo(@Param('id') id: string) {
+    try {
+      await this.videoService.deleteVideo(parseInt(id));
+      return {
+        message: `Deleted successfully`,
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new BadRequestException(error);
+    }
   }
 }

@@ -16,16 +16,6 @@ import { CreateVideoDto } from './dto/create-video.dto';
         destination: (req, file, cb) => {
           const { date, season, stage, area, article } =
             req.body as CreateVideoDto;
-
-          // const uploadPath = path.join(
-          //   process.cwd(),
-          //   'uploads',
-          //   date,
-          //   season,
-          //   stage,
-          //   area,
-          //   article,
-          // );
           const uploadPath = `./uploads/${date}/${season}/${stage}/${area}/${article}`;
           if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
@@ -39,16 +29,6 @@ import { CreateVideoDto } from './dto/create-video.dto';
       fileFilter: (req, file, cb) => {
         const { date, season, stage, area, article } =
           req.body as CreateVideoDto;
-        // const uploadDir = path.join(
-        //   process.cwd(),
-        //   'uploads',
-        //   date,
-        //   season,
-        //   stage,
-        //   area,
-        //   area,
-        //   article,
-        // );
         const uploadDir = `./uploads/${date}/${season}/${stage}/${area}/${article}`;
         const fullPathToExistingFile = path.join(uploadDir, file.originalname);
         if (!file.originalname.match(/\.(mp4|avi|mkv|mov|flv|wmv|MOV)$/)) {
