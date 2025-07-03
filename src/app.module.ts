@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideoModule } from './modules/video/video.module';
 import { TablectModule } from './modules/tablect/tablect.module';
+import { HistoryPlaybackModule } from './modules/history-playback/history-playback.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { TablectModule } from './modules/tablect/tablect.module';
     }),
     VideoModule,
     TablectModule,
+    HistoryPlaybackModule
   ],
   controllers: [AppController],
   providers: [
