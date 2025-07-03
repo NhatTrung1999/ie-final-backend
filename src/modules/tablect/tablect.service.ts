@@ -11,7 +11,7 @@ export class TablectService {
     private tablectRepository: Repository<IE_TableCT>,
   ) {}
 
-  async create(createTablectDto: CreateTablectDto) {
+  async createTablect(createTablectDto: CreateTablectDto) {
     const tablect = this.tablectRepository.create(createTablectDto);
     return await this.tablectRepository.save(tablect);
   }

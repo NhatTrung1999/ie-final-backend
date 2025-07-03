@@ -35,7 +35,7 @@ export class VideoService {
         area,
         article,
         video_name: video.originalname,
-        video_path: `http://localhost:3000/${video.path}`,
+        video_path: `http://192.168.18.42:3000/${video.path}`,
         created_by,
         created_at: new Date(),
       });
@@ -57,7 +57,7 @@ export class VideoService {
 
     const filePath = path.join(
       process.cwd(),
-      video.video_path.replace('http://localhost:3000/', ''),
+      video.video_path.replace('http://192.168.18.42:3000/', ''),
     );
     // console.log(filePath);
 

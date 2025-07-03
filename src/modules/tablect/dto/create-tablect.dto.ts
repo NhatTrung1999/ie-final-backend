@@ -6,4 +6,5 @@ export class CreateTablectDto {
   va: string;
   confirm: string;
   created_by: string;
+  created_at: string;
 }

@@ -8,7 +8,9 @@ export class TablectController {
 
   @Post()
   async create(@Body() createTablectDto: CreateTablectDto) {
-    await this.tablectService.create(createTablectDto);
+    // console.log(createTablectDto);
+    const response = await this.tablectService.createTablect(createTablectDto);
+    console.log(response);
     return 'Add successfull';
   }
 

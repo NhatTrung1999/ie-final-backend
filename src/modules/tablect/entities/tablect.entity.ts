@@ -1,9 +1,10 @@
+import { IE_HistoryPlayback } from 'src/modules/history-playback/entities/history-playback.entity';
 import { IE_Video } from 'src/modules/video/entities/video.entity';
 import {
   Column,
   Entity,
   JoinColumn,
-  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -40,4 +41,7 @@ export class IE_TableCT {
   @OneToOne(() => IE_Video, (video) => video.tablect)
   @JoinColumn({ name: 'id_video' })
   video: IE_Video;
+
+  @OneToMany(() => IE_HistoryPlayback, (historyPlayback) => historyPlayback.tablect)
+  historyPlaybacks: IE_HistoryPlayback[]
 }
