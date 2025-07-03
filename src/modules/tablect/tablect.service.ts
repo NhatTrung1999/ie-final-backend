@@ -11,9 +11,17 @@ export class TablectService {
     private tablectRepository: Repository<IE_TableCT>,
   ) {}
 
-  async createTablect(createTablectDto: CreateTablectDto) {
-    const tablect = this.tablectRepository.create(createTablectDto);
-    return await this.tablectRepository.save(tablect);
+  async createTablect(
+    createTablectDto: CreateTablectDto[],
+  ): Promise<IE_TableCT[]> {
+    const result: IE_TableCT[] = [];
+    createTablectDto.forEach(async (item) => {
+      const newTableDto = await this.tablectRepository.create(item);
+      const saved = await this.tablectRepository.save(newTableDto);
+      result.push(saved);
+    });
+
+    return result;
   }
 
   async getTablect(): Promise<IE_TableCT[]> {

@@ -17,22 +17,25 @@ export class IE_TableCT {
   @Column({ unique: true })
   id_video: number;
 
-  @Column()
+  @Column({ nullable: true })
   no: string;
 
-  @Column()
+  @Column({ nullable: true })
   progress_stage_part_name: string;
 
-  @Column({ type: 'nvarchar', length: 'max' })
+  @Column({ nullable: true })
+  area: string;
+
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   nva: string;
 
-  @Column({ type: 'nvarchar', length: 'max' })
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
   va: string;
 
-  @Column()
+  @Column({ nullable: true })
   confirm: string;
 
-  @Column()
+  @Column({ nullable: true })
   created_by: string;
 
   @Column({ type: 'datetime', default: () => 'GETDATE()' })
@@ -42,6 +45,9 @@ export class IE_TableCT {
   @JoinColumn({ name: 'id_video' })
   video: IE_Video;
 
-  @OneToMany(() => IE_HistoryPlayback, (historyPlayback) => historyPlayback.tablect)
-  historyPlaybacks: IE_HistoryPlayback[]
+  @OneToMany(
+    () => IE_HistoryPlayback,
+    (historyPlayback) => historyPlayback.tablect,
+  )
+  historyPlaybacks: IE_HistoryPlayback[];
 }
