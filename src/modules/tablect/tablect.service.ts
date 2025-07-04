@@ -11,17 +11,34 @@ export class TablectService {
     private tablectRepository: Repository<IE_TableCT>,
   ) {}
 
-  async createTablect(
-    createTablectDto: CreateTablectDto[],
-  ): Promise<IE_TableCT[]> {
-    const result: IE_TableCT[] = [];
-    createTablectDto.forEach(async (item) => {
-      const newTableDto = await this.tablectRepository.create(item);
-      const saved = await this.tablectRepository.save(newTableDto);
-      result.push(saved);
-    });
+  async createTablect(createTablectDto: CreateTablectDto[]): Promise<void> {
+    // console.log(createTablectDto);
+    // const response: IE_TableCT[] = [];
+    for (const item of createTablectDto) {
+      const existingVideo = await this.tablectRepository.findOne({
+        where: [{ id_video: item.id_video }],
+      });
 
-    return result;
+      if (existingVideo) {
+        console.log(`Continue item duplicate!`);
+        continue;
+      }
+
+      const newTablect = this.tablectRepository.create({
+        id_video: item.id_video,
+        no: item.no,
+        progress_stage_part_name: item.progress_stage_part_name,
+        area: item.area,
+        nva: item.nva,
+        va: item.va,
+        confirm: item.confirm,
+        created_by: 'admin',
+        created_at: new Date(),
+      });
+      const result = await this.tablectRepository.save(newTablect);
+      // response.push(result);
+    }
+    // return response;
   }
 
   async getTablect(): Promise<IE_TableCT[]> {

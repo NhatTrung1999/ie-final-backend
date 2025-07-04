@@ -7,9 +7,10 @@ export class TablectController {
   constructor(private readonly tablectService: TablectService) {}
 
   @Post()
-  async create(@Body() createTablectDto: CreateTablectDto[]) {
-    const response = await this.tablectService.createTablect(createTablectDto);
-    return response;
+  async create(@Body() createTablectDto: CreateTablectDto[]): Promise<void> {
+    return await this.tablectService.createTablect(createTablectDto);
+    // console.log(response);
+    // return response;
   }
 
   @Get()

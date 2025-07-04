@@ -31,7 +31,7 @@ export class IE_HistoryPlayback {
   created_by: string;
 
   @Column({ nullable: true })
-  created_at: string;
+  created_at: Date;
 
   @ManyToOne(() => IE_TableCT, (tablect) => tablect.historyPlaybacks)
   @JoinColumn({ name: 'id_tablect', referencedColumnName: 'id_video' })
