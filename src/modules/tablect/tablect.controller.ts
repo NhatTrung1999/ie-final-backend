@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Delete,
+  Param,
+  BadRequestException,
+} from '@nestjs/common';
 import { TablectService } from './tablect.service';
 import { CreateTablectDto } from './dto/create-tablect.dto';
 
@@ -9,8 +17,6 @@ export class TablectController {
   @Post()
   async create(@Body() createTablectDto: CreateTablectDto[]): Promise<void> {
     return await this.tablectService.createTablect(createTablectDto);
-    // console.log(response);
-    // return response;
   }
 
   @Get()
@@ -19,5 +25,14 @@ export class TablectController {
     return {
       data: response,
     };
+  }
+
+  @Delete(':id')
+  async deleteTablect(@Param('id') id: number) {
+    try {
+      await this.tablectService.deleteTablect(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

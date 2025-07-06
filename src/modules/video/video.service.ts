@@ -5,11 +5,14 @@ import { Repository } from 'typeorm';
 import { CreateVideoDto } from './dto/create-video.dto';
 import * as path from 'path';
 import * as fs from 'fs';
+import { IE_TableCT } from '../tablect/entities/tablect.entity';
 
 @Injectable()
 export class VideoService {
   constructor(
     @InjectRepository(IE_Video) private videosRepository: Repository<IE_Video>,
+    @InjectRepository(IE_TableCT)
+    private tablectRepository: Repository<IE_TableCT>,
   ) {}
 
   async uploadVideo(
@@ -50,16 +53,25 @@ export class VideoService {
   }
 
   async deleteVideo(id: number): Promise<void> {
-    const video = await this.videosRepository.findOne({ where: { id } });
+    const video = await this.videosRepository.findOne({
+      where: { id },
+      relations: ['tablect', 'tablect.historyPlaybacks'],
+    });
+
     if (!video) {
       throw new BadRequestException(`Video with ID ${id} not found`);
+    }
+
+    if (video.tablect !== null) {
+      throw new BadRequestException(
+        `Cannot delete video with ID ${id}. Please delete related history playbacks in IE_TableCT first.`,
+      );
     }
 
     const filePath = path.join(
       process.cwd(),
       video.video_path.replace('http://localhost:3000/', ''),
     );
-    // console.log(filePath);
 
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);

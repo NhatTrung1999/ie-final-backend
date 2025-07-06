@@ -8,6 +8,7 @@ import { diskStorage } from 'multer';
 import * as path from 'path';
 import * as fs from 'fs';
 import { CreateVideoDto } from './dto/create-video.dto';
+import { IE_TableCT } from '../tablect/entities/tablect.entity';
 
 @Module({
   imports: [
@@ -41,7 +42,7 @@ import { CreateVideoDto } from './dto/create-video.dto';
         cb(null, true);
       },
     }),
-    TypeOrmModule.forFeature([IE_Video]),
+    TypeOrmModule.forFeature([IE_Video, IE_TableCT]),
   ],
   controllers: [VideoController],
   providers: [VideoService],

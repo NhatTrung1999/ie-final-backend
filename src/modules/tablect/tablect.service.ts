@@ -3,17 +3,18 @@ import { CreateTablectDto } from './dto/create-tablect.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IE_TableCT } from './entities/tablect.entity';
 import { Repository } from 'typeorm';
+import { IE_HistoryPlayback } from '../history-playback/entities/history-playback.entity';
 
 @Injectable()
 export class TablectService {
   constructor(
     @InjectRepository(IE_TableCT)
     private tablectRepository: Repository<IE_TableCT>,
+    @InjectRepository(IE_HistoryPlayback)
+    private historyPlaybackReposity: Repository<IE_HistoryPlayback>,
   ) {}
 
   async createTablect(createTablectDto: CreateTablectDto[]): Promise<void> {
-    // console.log(createTablectDto);
-    // const response: IE_TableCT[] = [];
     for (const item of createTablectDto) {
       const existingVideo = await this.tablectRepository.findOne({
         where: [{ id_video: item.id_video }],
@@ -38,10 +39,18 @@ export class TablectService {
       const result = await this.tablectRepository.save(newTablect);
       // response.push(result);
     }
-    // return response;
   }
 
   async getTablect(): Promise<IE_TableCT[]> {
     return await this.tablectRepository.find();
+  }
+
+  async deleteTablect(id: number): Promise<void> {
+    try {
+      await this.historyPlaybackReposity.delete({ id_tablect: id });
+      await this.tablectRepository.delete({ id_video: id });
+    } catch (error) {
+      throw error;
+    }
   }
 }

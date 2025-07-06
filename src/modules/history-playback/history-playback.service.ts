@@ -20,7 +20,6 @@ export class HistoryPlaybackService {
       const existingVideo = await this.historyPlaybackReposity.findOne({
         where: [{ id_historyplayback: item.id_historyplayback }],
       });
-
       if (existingVideo) {
         console.log(`Continue item duplicate!`);
         continue;
@@ -34,7 +33,6 @@ export class HistoryPlaybackService {
         created_by: item.created_by || 'admin',
         created_at: item.created_at || new Date(),
       });
-
       await this.historyPlaybackReposity.save(newHistoryPlaybackDto);
     }
   }

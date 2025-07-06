@@ -13,6 +13,7 @@ export class HistoryPlaybackController {
   createHistoryPlayback(
     @Body() createHistoryPlaybackDto: CreateHistoryPlaybackDto[],
   ) {
+    // console.log(createHistoryPlaybackDto);
     return this.historyPlaybackService.createHistoryPlayback(
       createHistoryPlaybackDto,
     );

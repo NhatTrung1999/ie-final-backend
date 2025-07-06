@@ -49,10 +49,6 @@ export class VideoController {
   async deleteVideo(@Param('id') id: string) {
     try {
       await this.videoService.deleteVideo(parseInt(id));
-      return {
-        message: `Deleted successfully`,
-        status: 200,
-      };
     } catch (error: any) {
       throw new BadRequestException(error);
     }
