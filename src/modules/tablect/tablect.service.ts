@@ -33,6 +33,7 @@ export class TablectService {
         nva: item.nva,
         va: item.va,
         confirm: item.confirm,
+        video_path: item.video_path,
         created_by: 'admin',
         created_at: new Date(),
       });

@@ -36,6 +36,9 @@ export class IE_TableCT {
   confirm: string;
 
   @Column({ nullable: true })
+  video_path: string;
+
+  @Column({ nullable: true })
   created_by: string;
 
   @Column({ type: 'datetime', default: () => 'GETDATE()' })

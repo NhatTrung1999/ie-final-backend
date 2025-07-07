@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideoModule } from './modules/video/video.module';
 import { TablectModule } from './modules/tablect/tablect.module';
 import { HistoryPlaybackModule } from './modules/history-playback/history-playback.module';
+import { ExportExcelModule } from './modules/export-excel/export-excel.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { HistoryPlaybackModule } from './modules/history-playback/history-playba
     }),
     VideoModule,
     TablectModule,
-    HistoryPlaybackModule
+    HistoryPlaybackModule,
+    ExportExcelModule
   ],
   controllers: [AppController],
   providers: [
