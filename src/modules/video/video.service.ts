@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IE_Video } from './entities/video.entity';
-import { MoreThanOrEqual, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateVideoDto } from './dto/create-video.dto';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -20,32 +20,51 @@ export class VideoService {
     videos: Array<Express.Multer.File>,
   ): Promise<IE_Video[]> {
     const { date, season, stage, area, article, created_by } = body;
-    const response: IE_Video[] = [];
-    for (const video of videos) {
-      const existingVideo = await this.videosRepository.findOne({
-        where: [{ video_name: video.originalname, video_path: video.path }],
-      });
+    const savedVideos: IE_Video[] = [];
 
-      if (existingVideo) {
-        console.log(`Conflict ${video.originalname} and path ${video.path}`);
+    const uploadBasePath = path.join(
+      process.cwd(),
+      'uploads',
+      date,
+      season,
+      stage,
+      area,
+      article,
+    );
+    if (!fs.existsSync(uploadBasePath)) {
+      fs.mkdirSync(uploadBasePath, { recursive: true });
+    }
+
+    for (const file of videos) {
+      const filePath = path.join(uploadBasePath, file.originalname);
+      if (fs.existsSync(filePath)) {
+        console.log(`File already exists: ${file.originalname}`);
+        continue; // bỏ qua file trùng
+      }
+
+      try {
+        fs.writeFileSync(filePath, file.buffer);
+      } catch (err) {
+        console.error(`Failed to save file: ${file.originalname}`);
         continue;
       }
 
-      const newUploadVideo = this.videosRepository.create({
+      const videoRecord = this.videosRepository.create({
         date,
         season,
         stage,
         area,
         article,
-        video_name: video.originalname,
-        video_path: `http://localhost:3000/${video.path}`,
+        video_name: file.originalname,
+        video_path: `http://localhost:3000/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
         created_by,
         created_at: new Date(),
       });
-      const result = await this.videosRepository.save(newUploadVideo);
-      response.push(result);
+      const saved = await this.videosRepository.save(videoRecord);
+      savedVideos.push(saved);
     }
-    return response;
+
+    return savedVideos;
   }
 
   async getVideo(
