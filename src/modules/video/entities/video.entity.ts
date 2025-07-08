@@ -12,7 +12,7 @@ export class IE_Video {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: 'smalldatetime'})
   date: Date;
 
   @Column()
@@ -36,7 +36,7 @@ export class IE_Video {
   @Column()
   created_by: string;
 
-  @Column()
+  @Column({type: 'smalldatetime'})
   created_at: Date;
 
   @OneToOne(() => IE_TableCT, (tablect) => tablect.video, { cascade: true })

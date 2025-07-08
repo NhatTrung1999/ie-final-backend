@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { TablectService } from './tablect.service';
 import { CreateTablectDto } from './dto/create-tablect.dto';
@@ -20,8 +21,23 @@ export class TablectController {
   }
 
   @Get()
-  async getTablect() {
-    const response = await this.tablectService.getTablect();
+  async getTablect(
+    @Query('date_from') date_from: string,
+    @Query('date_to') date_to: string,
+    @Query('season') season: string,
+    @Query('stage') stage: string,
+    @Query('area') area: string,
+    @Query('article') article: string,
+  ) {
+
+    const response = await this.tablectService.getTablect(
+      date_from,
+      date_to,
+      season,
+      stage,
+      area,
+      article,
+    );
     return {
       data: response,
     };

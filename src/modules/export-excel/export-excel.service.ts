@@ -14,6 +14,7 @@ import { CTData, Section, TimeStudyData } from './types';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IE_TableCT } from '../tablect/entities/tablect.entity';
+import { IE_Video } from '../video/entities/video.entity';
 
 @Injectable()
 export class ExportExcelService {
@@ -67,7 +68,14 @@ export class ExportExcelService {
     }
   };
 
-  async exportExcelTimeStudy() {
+  async exportExcelTimeStudy(
+    date_from: string,
+    date_to: string,
+    season: string,
+    stage: string,
+    area: string,
+    article: string,
+  ) {
     const imagePath = path.join(process.cwd(), '/assets/image/adidas.png');
     // console.log(imagePath);
 
@@ -108,12 +116,35 @@ export class ExportExcelService {
       this.setMergedCell(worksheet, item.range, item.value, item.style);
     });
 
-    const data = await this.tableCtRepository.find();
+    // const data = await this.tableCtRepository.find();
+    const query = this.tableCtRepository
+      .createQueryBuilder('tablect')
+      .leftJoin(IE_Video, 'video', 'tablect.id_video = video.id');
+
+    if (date_from && date_to) {
+      query.andWhere('video.date >= :date_from AND video.date <= :date_to', {
+        date_from,
+        date_to,
+      });
+    } else if (date_from) {
+      query.andWhere('video.date >= :date_from', { date_from });
+    } else if (date_to) {
+      query.andWhere('video.date <= :date_to', { date_to });
+    }
+
+    if (season)
+      query.andWhere('video.season LIKE :season', { season: `%${season}%` });
+    if (stage)
+      query.andWhere('video.stage LIKE :stage', { stage: `%${stage}%` });
+    if (area) query.andWhere('video.area LIKE :area', { area: `%${area}%` });
+    if (article)
+      query.andWhere('video.article LIKE :article', {
+        article: `%${article}%`,
+      });
+
+    const data = await query.getMany();
     // console.log(data);
-
     const timeStudyData: IE_TableCT[] = data;
-
-    console.log(timeStudyData);
 
     let startRow = 13;
     const totalCT: CTData = {
@@ -540,7 +571,6 @@ export class ExportExcelService {
   }
 
   //LSA
-
   private applyCellConfigurations(worksheet: ExcelJS.Worksheet): void {
     const borderStyle = { style: 'thin' as ExcelJS.BorderStyle };
 
@@ -614,15 +644,48 @@ export class ExportExcelService {
     });
   }
 
-  async exportExcelLSA() {
-    const query = await this.tableCtRepository.find()
-    const data: IE_TableCT[] = query;
+  async exportExcelLSA(
+    date_from: string,
+    date_to: string,
+    season: string,
+    stage: string,
+    area: string,
+    article: string,
+  ) {
+
+    const query = this.tableCtRepository
+      .createQueryBuilder('tablect')
+      .leftJoin(IE_Video, 'video', 'tablect.id_video = video.id');
+
+    if (date_from && date_to) {
+      query.andWhere('video.date >= :date_from AND video.date <= :date_to', {
+        date_from,
+        date_to,
+      });
+    } else if (date_from) {
+      query.andWhere('video.date >= :date_from', { date_from });
+    } else if (date_to) {
+      query.andWhere('video.date <= :date_to', { date_to });
+    }
+
+    if (season)
+      query.andWhere('video.season LIKE :season', { season: `%${season}%` });
+    if (stage)
+      query.andWhere('video.stage LIKE :stage', { stage: `%${stage}%` });
+    if (area) query.andWhere('video.area LIKE :area', { area: `%${area}%` });
+    if (article)
+      query.andWhere('video.article LIKE :article', {
+        article: `%${article}%`,
+      });
+
+    const dataLSA = await query.getMany();
+
+    const data: IE_TableCT[] = dataLSA;
 
     const groupedMap = new Map<string, Section>();
 
     for (const item of data) {
-      const { area, no, progress_stage_part_name, va, nva } =
-        item;
+      const { area, no, progress_stage_part_name, va, nva } = item;
 
       const vaData = JSON.parse(va);
       const nvaData = JSON.parse(nva);

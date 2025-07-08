@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IE_TableCT } from './entities/tablect.entity';
 import { Repository } from 'typeorm';
 import { IE_HistoryPlayback } from '../history-playback/entities/history-playback.entity';
+import { IE_Video } from '../video/entities/video.entity';
 
 @Injectable()
 export class TablectService {
@@ -42,8 +43,35 @@ export class TablectService {
     }
   }
 
-  async getTablect(): Promise<IE_TableCT[]> {
-    return await this.tablectRepository.find();
+  async getTablect(
+    date_from: string,
+    date_to: string,
+    season: string,
+    stage: string,
+    area: string,
+    article: string,
+  ): Promise<IE_TableCT[]> {
+    const query = this.tablectRepository
+      .createQueryBuilder('tablect')
+      .leftJoin(IE_Video, 'video', 'tablect.id_video = video.id');
+
+    if (date_from && date_to) {
+      query.andWhere('video.date >= :date_from AND video.date <= :date_to', {
+        date_from,
+        date_to,
+      });
+    } else if (date_from) {
+      query.andWhere('video.date >= :date_from', { date_from });
+    } else if (date_to) {
+      query.andWhere('video.date <= :date_to', { date_to });
+    }
+
+    if (season) query.andWhere('video.season LIKE :season', { season: `%${season}%` });
+    if (stage) query.andWhere('video.stage LIKE :stage', { stage: `%${stage}%` });
+    if (area) query.andWhere('video.area LIKE :area', { area: `%${area}%` });
+    if (article) query.andWhere('video.article LIKE :article', { article: `%${article}%` });
+
+    return await query.getMany()
   }
 
   async deleteTablect(id: number): Promise<void> {
