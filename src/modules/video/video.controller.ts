@@ -35,21 +35,19 @@ export class VideoController {
       );
 
       // console.log(skippedFiles);
-      if(skippedFiles.length > 0) {
+      if (savedVideos.length > 0) {
         // return {
         //   message: 'These videos have already been uploaded!',
         //   status: 400,
         //   data: skippedFiles
         // };
-        // throw new BadRequestException(
-        //   'These videos have already been uploaded!',
-        // );
+        return {
+          message: 'Upload video is successfull!',
+          status: 200,
+          data: savedVideos,
+        };
       }
-      return {
-        message: 'Upload video is successfull!',
-        status: 200,
-        data: savedVideos,
-      };
+      throw new BadRequestException('These videos have already been uploaded!');
     } catch (error: any) {
       throw new BadRequestException(error);
     }
