@@ -25,12 +25,30 @@ export class VideoController {
     @UploadedFiles() videos: Array<Express.Multer.File>,
   ) {
     // console.log(body, videos);
+    // if(videos.length > 5) {
+    //   throw new BadRequestException('Maximum 5 videos!');
+    // }
     try {
-      const response = await this.videoService.uploadVideo(body, videos);
+      const { savedVideos, skippedFiles } = await this.videoService.uploadVideo(
+        body,
+        videos,
+      );
+
+      // console.log(skippedFiles);
+      if(skippedFiles.length > 0) {
+        // return {
+        //   message: 'These videos have already been uploaded!',
+        //   status: 400,
+        //   data: skippedFiles
+        // };
+        // throw new BadRequestException(
+        //   'These videos have already been uploaded!',
+        // );
+      }
       return {
         message: 'Upload video is successfull!',
         status: 200,
-        data: response,
+        data: savedVideos,
       };
     } catch (error: any) {
       throw new BadRequestException(error);

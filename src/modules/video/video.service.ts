@@ -11,16 +11,15 @@ import { IE_TableCT } from '../tablect/entities/tablect.entity';
 export class VideoService {
   constructor(
     @InjectRepository(IE_Video) private videosRepository: Repository<IE_Video>,
-    @InjectRepository(IE_TableCT)
-    private tablectRepository: Repository<IE_TableCT>,
   ) {}
 
   async uploadVideo(
     body: CreateVideoDto,
     videos: Array<Express.Multer.File>,
-  ): Promise<IE_Video[]> {
+  ): Promise<{ savedVideos: IE_Video[]; skippedFiles: string[] }> {
     const { date, season, stage, area, article, created_by } = body;
     const savedVideos: IE_Video[] = [];
+    const skippedFiles: string[] = [];
 
     const uploadBasePath = path.join(
       process.cwd(),
@@ -39,6 +38,7 @@ export class VideoService {
       const filePath = path.join(uploadBasePath, file.originalname);
       if (fs.existsSync(filePath)) {
         console.log(`File already exists: ${file.originalname}`);
+        skippedFiles.push(file.originalname);
         continue; // bỏ qua file trùng
       }
 
@@ -65,7 +65,7 @@ export class VideoService {
       savedVideos.push(saved);
     }
 
-    return savedVideos;
+    return { savedVideos, skippedFiles };
   }
 
   async getVideo(

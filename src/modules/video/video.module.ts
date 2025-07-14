@@ -36,10 +36,10 @@ import { IE_TableCT } from '../tablect/entities/tablect.entity';
         if (!file.originalname.match(/\.(mp4|avi|mkv|mov|flv|wmv|MOV)$/)) {
           return cb(new Error('Chỉ cho phép định dạng video!'), false);
         }
-        if (fs.existsSync(fullPathToExistingFile)) {
-          console.log(`File '${file.originalname}' đã tồn tại. Bỏ qua upload.`);
-          return cb(null, false);
-        }
+        // if (fs.existsSync(fullPathToExistingFile)) {
+        //   // console.log(`File '${file.originalname}' đã tồn tại. Bỏ qua upload.`);
+        //   return cb(null, false);
+        // }
         cb(null, true);
       },
     }),
