@@ -38,7 +38,7 @@ export class TablectService {
         created_by: 'admin',
         created_at: new Date(),
       });
-      const result = await this.tablectRepository.save(newTablect);
+      await this.tablectRepository.save(newTablect);
       // response.push(result);
     }
   }
@@ -66,12 +66,17 @@ export class TablectService {
       query.andWhere('video.date <= :date_to', { date_to });
     }
 
-    if (season) query.andWhere('video.season LIKE :season', { season: `%${season}%` });
-    if (stage) query.andWhere('video.stage LIKE :stage', { stage: `%${stage}%` });
+    if (season)
+      query.andWhere('video.season LIKE :season', { season: `%${season}%` });
+    if (stage)
+      query.andWhere('video.stage LIKE :stage', { stage: `%${stage}%` });
     if (area) query.andWhere('video.area LIKE :area', { area: `%${area}%` });
-    if (article) query.andWhere('video.article LIKE :article', { article: `%${article}%` });
+    if (article)
+      query.andWhere('video.article LIKE :article', {
+        article: `%${article}%`,
+      });
 
-    return await query.getMany()
+    return await query.getMany();
   }
 
   async deleteTablect(id: number): Promise<void> {
