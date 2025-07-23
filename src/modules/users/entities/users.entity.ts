@@ -20,6 +20,9 @@ export class IE_User {
   @Column({ nullable: true })
   role: string;
 
+  @Column({ nullable: true })
+  permission: string;
+
   @Column({ default: true })
   is_active: boolean;
 

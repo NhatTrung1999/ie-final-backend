@@ -55,8 +55,8 @@ export class VideoService {
         area,
         article,
         video_name: file.originalname,
-        video_path: `http://localhost:3000/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
-        // video_path: `http://192.168.18.42:3000/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
+        // video_path: `http://localhost:3000/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
+        video_path: `http://192.168.18.42:3000/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
         created_by,
         created_at: new Date(),
       });
@@ -119,8 +119,8 @@ export class VideoService {
 
     const filePath = path.join(
       process.cwd(),
-      // video.video_path.replace('http://192.168.18.42:3000/', ''),
-      video.video_path.replace('http://localhost:3000/', ''),
+      video.video_path.replace('http://192.168.18.42:3000/', ''),
+      // video.video_path.replace('http://localhost:3000/', ''),
     );
 
     if (fs.existsSync(filePath)) {
