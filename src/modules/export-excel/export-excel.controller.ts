@@ -16,7 +16,7 @@ export class ExportExcelController {
     @Query('article') article: string,
     @Res() res: Response,
   ) {
-    console.log(date_from, date_to, season, stage, area, article);
+    // console.log(date_from, date_to, season, stage, area, article);
     const buffer = await this.exportExcelService.exportExcelTimeStudy(
       date_from,
       date_to,

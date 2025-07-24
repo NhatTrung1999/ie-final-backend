@@ -166,91 +166,6 @@ export class ExportExcelService {
       worksheet.mergeCells(`C${startRow}:G${startRow}`);
       worksheet.getCell(`C${startRow}`).value = item.progress_stage_part_name;
       worksheet.mergeCells(`H${startRow}:L${startRow}`);
-      const va = JSON.parse(item.va);
-      worksheet.getCell(`H${startRow}`).value = va.type;
-      worksheet.getCell(`M${startRow}`).value = va.cts[0];
-      worksheet.getCell(`N${startRow}`).value = va.cts[1];
-      worksheet.getCell(`O${startRow}`).value = va.cts[2];
-      worksheet.getCell(`P${startRow}`).value = va.cts[3];
-      worksheet.getCell(`Q${startRow}`).value = va.cts[4];
-      worksheet.getCell(`R${startRow}`).value = va.cts[5];
-      worksheet.getCell(`S${startRow}`).value = va.cts[6];
-      worksheet.getCell(`T${startRow}`).value = va.cts[7];
-      worksheet.getCell(`U${startRow}`).value = va.cts[8];
-      worksheet.getCell(`V${startRow}`).value = va.cts[9];
-      worksheet.getCell(`W${startRow}`).value = va.average;
-
-      [
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-      ].map((item) => {
-        worksheet.getCell(`${item}${startRow}`).style = {
-          border: {
-            ...defaultBorder,
-            right: { style: item === 'W' ? 'medium' : 'thin' },
-          },
-          font: {
-            ...defaultFont,
-            name: 'Arial',
-            size: 10,
-            bold: item === 'W' ? true : false,
-          },
-          alignment: {
-            ...defaultAlignment,
-            horizontal:
-              item === 'W'
-                ? 'center'
-                : item === 'A' || item === 'C' || item === 'H'
-                  ? 'left'
-                  : 'right',
-          },
-          fill: {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: item === 'W' ? 'ccffff' : 'fff9e7' },
-          },
-        };
-      });
-
-      totalCT.CT1 += va.cts[0];
-      totalCT.CT2 += va.cts[1];
-      totalCT.CT3 += va.cts[2];
-      totalCT.CT4 += va.cts[3];
-      totalCT.CT5 += va.cts[4];
-      totalCT.CT6 += va.cts[5];
-      totalCT.CT7 += va.cts[6];
-      totalCT.CT8 += va.cts[7];
-      totalCT.CT9 += va.cts[8];
-      totalCT.CT10 += va.cts[9];
-      totalCT.AvgCT += va.average;
-      startRow++;
-
-      worksheet.mergeCells(`A${startRow}:B${startRow}`);
-      worksheet.getCell(`A${startRow}`).value = '';
-      worksheet.mergeCells(`C${startRow}:G${startRow}`);
-      worksheet.getCell(`C${startRow}`).value = '';
-      worksheet.mergeCells(`H${startRow}:L${startRow}`);
       const nva = JSON.parse(item.nva);
       worksheet.getCell(`H${startRow}`).value = nva.type;
       worksheet.getCell(`M${startRow}`).value = nva.cts[0];
@@ -317,6 +232,7 @@ export class ExportExcelService {
           },
         };
       });
+
       totalCT.CT1 += nva.cts[0];
       totalCT.CT2 += nva.cts[1];
       totalCT.CT3 += nva.cts[2];
@@ -328,6 +244,90 @@ export class ExportExcelService {
       totalCT.CT9 += nva.cts[8];
       totalCT.CT10 += nva.cts[9];
       totalCT.AvgCT += nva.average;
+      startRow++;
+
+      worksheet.mergeCells(`A${startRow}:B${startRow}`);
+      worksheet.getCell(`A${startRow}`).value = '';
+      worksheet.mergeCells(`C${startRow}:G${startRow}`);
+      worksheet.getCell(`C${startRow}`).value = '';
+      worksheet.mergeCells(`H${startRow}:L${startRow}`);
+      const va = JSON.parse(item.va);
+      worksheet.getCell(`H${startRow}`).value = va.type;
+      worksheet.getCell(`M${startRow}`).value = va.cts[0];
+      worksheet.getCell(`N${startRow}`).value = va.cts[1];
+      worksheet.getCell(`O${startRow}`).value = va.cts[2];
+      worksheet.getCell(`P${startRow}`).value = va.cts[3];
+      worksheet.getCell(`Q${startRow}`).value = va.cts[4];
+      worksheet.getCell(`R${startRow}`).value = va.cts[5];
+      worksheet.getCell(`S${startRow}`).value = va.cts[6];
+      worksheet.getCell(`T${startRow}`).value = va.cts[7];
+      worksheet.getCell(`U${startRow}`).value = va.cts[8];
+      worksheet.getCell(`V${startRow}`).value = va.cts[9];
+      worksheet.getCell(`W${startRow}`).value = va.average;
+
+      [
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+      ].map((item) => {
+        worksheet.getCell(`${item}${startRow}`).style = {
+          border: {
+            ...defaultBorder,
+            right: { style: item === 'W' ? 'medium' : 'thin' },
+          },
+          font: {
+            ...defaultFont,
+            name: 'Arial',
+            size: 10,
+            bold: item === 'W' ? true : false,
+          },
+          alignment: {
+            ...defaultAlignment,
+            horizontal:
+              item === 'W'
+                ? 'center'
+                : item === 'A' || item === 'C' || item === 'H'
+                  ? 'left'
+                  : 'right',
+          },
+          fill: {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: item === 'W' ? 'ccffff' : 'fff9e7' },
+          },
+        };
+      });
+      totalCT.CT1 += va.cts[0];
+      totalCT.CT2 += va.cts[1];
+      totalCT.CT3 += va.cts[2];
+      totalCT.CT4 += va.cts[3];
+      totalCT.CT5 += va.cts[4];
+      totalCT.CT6 += va.cts[5];
+      totalCT.CT7 += va.cts[6];
+      totalCT.CT8 += va.cts[7];
+      totalCT.CT9 += va.cts[8];
+      totalCT.CT10 += va.cts[9];
+      totalCT.AvgCT += va.average;
       startRow++;
     });
 
@@ -652,7 +652,6 @@ export class ExportExcelService {
     area: string,
     article: string,
   ) {
-
     const query = this.tableCtRepository
       .createQueryBuilder('tablect')
       .leftJoin(IE_Video, 'video', 'tablect.id_video = video.id');
