@@ -10,11 +10,11 @@ export class HistoryPlaybackController {
   ) {}
 
   @Post()
-  createHistoryPlayback(
+  saveHistoryPlayback(
     @Body() createHistoryPlaybackDto: CreateHistoryPlaybackDto[],
   ) {
     // console.log(createHistoryPlaybackDto);
-    return this.historyPlaybackService.createHistoryPlayback(
+    return this.historyPlaybackService.saveHistoryPlayback(
       createHistoryPlaybackDto,
     );
   }

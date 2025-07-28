@@ -37,7 +37,7 @@ import { ExportExcelModule } from './modules/export-excel/export-excel.module';
     VideoModule,
     TablectModule,
     HistoryPlaybackModule,
-    ExportExcelModule
+    ExportExcelModule,
   ],
   controllers: [AppController],
   providers: [

@@ -7,6 +7,7 @@ import {
   Param,
   BadRequestException,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { TablectService } from './tablect.service';
 import { CreateTablectDto } from './dto/create-tablect.dto';
@@ -29,7 +30,6 @@ export class TablectController {
     @Query('area') area: string,
     @Query('article') article: string,
   ) {
-
     const response = await this.tablectService.getTablect(
       date_from,
       date_to,
@@ -41,6 +41,17 @@ export class TablectController {
     return {
       data: response,
     };
+  }
+
+  @Post('save')
+  async save(@Body() createTablectDto: CreateTablectDto): Promise<void> {
+    // console.log(createTablectDto);
+    return await this.tablectService.saveTablect(createTablectDto);
+  }
+  
+  @Patch('confirm')
+  async confirmTablect(@Body() confirmTablectDto: CreateTablectDto[]): Promise<void>{
+    return this.tablectService.confirmTablect(confirmTablectDto)
   }
 
   @Delete(':id')

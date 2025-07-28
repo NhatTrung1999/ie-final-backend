@@ -43,6 +43,23 @@ export class TablectService {
     }
   }
 
+  async saveTablect(createTablectDto: CreateTablectDto): Promise<void> {
+    const item = { ...createTablectDto };
+    const newTablect = this.tablectRepository.create({
+      id_video: item.id_video,
+      no: item.no,
+      progress_stage_part_name: item.progress_stage_part_name,
+      area: item.area,
+      nva: item.nva,
+      va: item.va,
+      confirm: item.confirm,
+      video_path: item.video_path,
+      created_by: 'admin',
+      created_at: new Date(),
+    });
+    await this.tablectRepository.save(newTablect);
+  }
+
   async getTablect(
     date_from: string,
     date_to: string,
@@ -76,7 +93,27 @@ export class TablectService {
         article: `%${article}%`,
       });
 
+    // console.log(await query.getMany());
+
     return await query.getMany();
+  }
+
+  async confirmTablect(confirmTablectDto: CreateTablectDto[]): Promise<void> {
+    for(const item of confirmTablectDto) {
+      const tablect = await this.tablectRepository.findOne({where: {id_video: item.id_video}})
+      if(!tablect){
+        continue
+      }
+
+      const newTablect =  {
+        ...tablect,
+        confirm: item.confirm
+      }
+
+      // console.log(tablect);
+
+      await this.tablectRepository.save(newTablect)
+    }
   }
 
   async deleteTablect(id: number): Promise<void> {

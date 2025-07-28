@@ -13,7 +13,7 @@ export class HistoryPlaybackService {
     private historyPlaybackReposity: Repository<IE_HistoryPlayback>,
   ) {}
 
-  async createHistoryPlayback(
+  async saveHistoryPlayback(
     createHistoryPlaybackDto: CreateHistoryPlaybackDto[],
   ) {
     // console.log(createHistoryPlaybackDto);
