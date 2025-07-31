@@ -52,6 +52,7 @@ export class TablectService {
       area: item.area,
       nva: item.nva,
       va: item.va,
+      is_save: item.is_save,
       confirm: item.confirm,
       video_path: item.video_path,
       created_by: 'admin',

@@ -38,7 +38,7 @@ export class IE_TableCT {
   @Column({ nullable: true })
   video_path: string;
 
-  @Column({ type: 'bit', default: true })
+  @Column({ type: 'bit', nullable: true })
   is_save: boolean;
 
   @Column({ nullable: true })

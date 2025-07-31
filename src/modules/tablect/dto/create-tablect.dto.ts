@@ -5,6 +5,7 @@ export class CreateTablectDto {
   area: string;
   nva: string;
   va: string;
+  is_save?: boolean;
   confirm: string;
   video_path: string;
   created_by: string;
