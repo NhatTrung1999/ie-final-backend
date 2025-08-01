@@ -10,10 +10,14 @@ import { VideoModule } from './modules/video/video.module';
 import { TablectModule } from './modules/tablect/tablect.module';
 import { HistoryPlaybackModule } from './modules/history-playback/history-playback.module';
 import { ExportExcelModule } from './modules/export-excel/export-excel.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
-    AuthModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'frontend', 'dist')
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -29,11 +33,13 @@ import { ExportExcelModule } from './modules/export-excel/export-excel.module';
         options: {
           encrypt: false,
           enableArithAbort: true,
+          // instanceName: 'eipsystem'
         },
         autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     VideoModule,
     TablectModule,
     HistoryPlaybackModule,
