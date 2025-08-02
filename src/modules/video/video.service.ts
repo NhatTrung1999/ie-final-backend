@@ -34,7 +34,9 @@ export class VideoService {
     }
 
     for (const file of videos) {
-      const originalName = Buffer.from(file.originalname, 'latin1').toString('utf-8')
+      const originalName = Buffer.from(file.originalname, 'latin1').toString(
+        'utf-8',
+      );
       const filePath = path.join(uploadBasePath, file.originalname);
       if (fs.existsSync(filePath)) {
         console.log(`File already exists: ${file.originalname}`);
@@ -57,8 +59,8 @@ export class VideoService {
         article,
         video_name: originalName,
         // video_path: `http://localhost:3000/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
-        video_path: `http://192.168.18.42:6868/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
-        // video_path: `http://192.168.0.96:6868/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
+        // video_path: `http://192.168.18.42:6868/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
+        video_path: `http://192.168.0.96:6868/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
         created_by,
         created_at: new Date(),
       });
@@ -76,6 +78,7 @@ export class VideoService {
     stage: string,
     area: string,
     article: string,
+    account: string,
   ): Promise<IE_Video[]> {
     const query = this.videosRepository.createQueryBuilder('video');
 
@@ -100,6 +103,10 @@ export class VideoService {
         article: `%${article}%`,
       });
 
+    if (account) {
+      query.andWhere('video.created_by = :account', { account });
+    }
+
     return await query.getMany();
   }
 
@@ -121,8 +128,8 @@ export class VideoService {
 
     const filePath = path.join(
       process.cwd(),
-      video.video_path.replace('http://192.168.18.42:6868/', ''),
-      // video.video_path.replace('http://192.168.0.96:6868/', ''),
+      // video.video_path.replace('http://192.168.18.42:6868/', ''),
+      video.video_path.replace('http://192.168.0.96:6868/', ''),
       // video.video_path.replace('http://localhost:3000/', ''),
     );
 

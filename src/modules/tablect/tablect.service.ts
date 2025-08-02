@@ -55,7 +55,7 @@ export class TablectService {
       is_save: item.is_save,
       confirm: item.confirm,
       video_path: item.video_path,
-      created_by: 'admin',
+      created_by: item.created_by || '',
       created_at: new Date(),
     });
     await this.tablectRepository.save(newTablect);
@@ -68,6 +68,7 @@ export class TablectService {
     stage: string,
     area: string,
     article: string,
+    account: string,
   ): Promise<IE_TableCT[]> {
     const query = this.tablectRepository
       .createQueryBuilder('tablect')
@@ -94,26 +95,33 @@ export class TablectService {
         article: `%${article}%`,
       });
 
+    if (account) {
+      query.andWhere('tablect.created_by = :account', {
+        account,
+      });
+    }
     // console.log(await query.getMany());
 
     return await query.getMany();
   }
 
   async confirmTablect(confirmTablectDto: CreateTablectDto[]): Promise<void> {
-    for(const item of confirmTablectDto) {
-      const tablect = await this.tablectRepository.findOne({where: {id_video: item.id_video}})
-      if(!tablect){
-        continue
+    for (const item of confirmTablectDto) {
+      const tablect = await this.tablectRepository.findOne({
+        where: { id_video: item.id_video },
+      });
+      if (!tablect) {
+        continue;
       }
 
-      const newTablect =  {
+      const newTablect = {
         ...tablect,
-        confirm: item.confirm
-      }
+        confirm: item.confirm,
+      };
 
       // console.log(tablect);
 
-      await this.tablectRepository.save(newTablect)
+      await this.tablectRepository.save(newTablect);
     }
   }
 

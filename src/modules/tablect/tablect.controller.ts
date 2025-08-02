@@ -29,6 +29,7 @@ export class TablectController {
     @Query('stage') stage: string,
     @Query('area') area: string,
     @Query('article') article: string,
+    @Query('account') account: string,
   ) {
     const response = await this.tablectService.getTablect(
       date_from,
@@ -37,6 +38,7 @@ export class TablectController {
       stage,
       area,
       article,
+      account
     );
     return {
       data: response,
@@ -48,10 +50,12 @@ export class TablectController {
     // console.log(createTablectDto);
     return await this.tablectService.saveTablect(createTablectDto);
   }
-  
+
   @Patch('confirm')
-  async confirmTablect(@Body() confirmTablectDto: CreateTablectDto[]): Promise<void>{
-    return this.tablectService.confirmTablect(confirmTablectDto)
+  async confirmTablect(
+    @Body() confirmTablectDto: CreateTablectDto[],
+  ): Promise<void> {
+    return this.tablectService.confirmTablect(confirmTablectDto);
   }
 
   @Delete(':id')

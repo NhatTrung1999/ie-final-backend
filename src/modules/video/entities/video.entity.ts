@@ -12,28 +12,28 @@ export class IE_Video {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'smalldatetime' })
+  @Column({ type: 'smalldatetime', nullable: true })
   date: Date;
 
-  @Column()
+  @Column({ nullable: true })
   season: string;
 
-  @Column()
+  @Column({ nullable: true })
   stage: string;
 
-  @Column()
+  @Column({ nullable: true })
   area: string;
 
-  @Column()
+  @Column({ nullable: true })
   article: string;
 
-  @Column({ type: 'nvarchar' })
+  @Column({ type: 'nvarchar', nullable: true })
   video_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   video_path: string;
 
-  @Column()
+  @Column({ nullable: true })
   created_by: string;
 
   @Column({ type: 'smalldatetime' })

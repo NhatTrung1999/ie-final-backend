@@ -61,6 +61,7 @@ export class VideoController {
     @Query('stage') stage: string,
     @Query('area') area: string,
     @Query('article') article: string,
+    @Query('account') account: string,
   ) {
     const response = await this.videoService.getVideo(
       date_from,
@@ -69,6 +70,7 @@ export class VideoController {
       stage,
       area,
       article,
+      account
     );
 
     // console.log(date_from, date_to, season, stage, area, article);

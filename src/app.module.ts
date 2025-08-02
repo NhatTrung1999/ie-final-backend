@@ -33,7 +33,7 @@ import { join } from 'path';
         options: {
           encrypt: false,
           enableArithAbort: true,
-          // instanceName: 'eipsystem'
+          instanceName: 'eipsystem'
         },
         autoLoadEntities: true,
       }),
