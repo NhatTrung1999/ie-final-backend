@@ -15,9 +15,9 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'frontend', 'dist')
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'frontend', 'dist')
+    // }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -33,7 +33,7 @@ import { join } from 'path';
         options: {
           encrypt: false,
           enableArithAbort: true,
-          instanceName: 'eipsystem'
+          // instanceName: 'eipsystem'
         },
         autoLoadEntities: true,
       }),
