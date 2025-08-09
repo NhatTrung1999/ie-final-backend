@@ -75,6 +75,7 @@ export class ExportExcelService {
     stage: string,
     area: string,
     article: string,
+    account: string,
   ) {
     const imagePath = path.join(process.cwd(), '/assets/image/adidas.png');
     // console.log(imagePath);
@@ -141,6 +142,11 @@ export class ExportExcelService {
       query.andWhere('video.article LIKE :article', {
         article: `%${article}%`,
       });
+    if (account) {
+      query.andWhere('tablect.created_by = :account', {
+        account,
+      });
+    }
 
     const data = await query.getMany();
     // console.log(data);
@@ -651,6 +657,7 @@ export class ExportExcelService {
     stage: string,
     area: string,
     article: string,
+    account: string
   ) {
     const query = this.tableCtRepository
       .createQueryBuilder('tablect')
@@ -676,6 +683,11 @@ export class ExportExcelService {
       query.andWhere('video.article LIKE :article', {
         article: `%${article}%`,
       });
+      if (account) {
+        query.andWhere('tablect.created_by = :account', {
+          account,
+        });
+      }
 
     const dataLSA = await query.getMany();
 

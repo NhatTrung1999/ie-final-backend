@@ -14,6 +14,7 @@ export class ExportExcelController {
     @Query('stage') stage: string,
     @Query('area') area: string,
     @Query('article') article: string,
+    @Query('account') account: string,
     @Res() res: Response,
   ) {
     // console.log(date_from, date_to, season, stage, area, article);
@@ -24,6 +25,7 @@ export class ExportExcelController {
       stage,
       area,
       article,
+      account,
     );
     res.set({
       'Content-Type':
@@ -41,6 +43,7 @@ export class ExportExcelController {
     @Query('stage') stage: string,
     @Query('area') area: string,
     @Query('article') article: string,
+    @Query('account') account: string,
     @Res() res: Response,
   ) {
     const buffer = await this.exportExcelService.exportExcelLSA(
@@ -50,6 +53,7 @@ export class ExportExcelController {
       stage,
       area,
       article,
+      account
     );
     res.set({
       'Content-Type':
