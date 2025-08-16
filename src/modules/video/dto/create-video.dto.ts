@@ -3,6 +3,7 @@ export class CreateVideoDto {
   season: string;
   stage: string;
   area: string;
+  factory: string;
   article: string;
   created_by: string;
 }

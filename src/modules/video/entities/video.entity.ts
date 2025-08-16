@@ -27,6 +27,9 @@ export class IE_Video {
   @Column({ nullable: true })
   article: string;
 
+  @Column({ nullable: true })
+  factory: string;
+
   @Column({ type: 'nvarchar', nullable: true })
   video_name: string;
 

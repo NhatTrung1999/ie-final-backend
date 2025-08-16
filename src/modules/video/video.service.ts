@@ -16,7 +16,7 @@ export class VideoService {
     body: CreateVideoDto,
     videos: Array<Express.Multer.File>,
   ): Promise<{ savedVideos: IE_Video[]; skippedFiles: string[] }> {
-    const { date, season, stage, area, article, created_by } = body;
+    const { date, season, stage, area, article, created_by, factory } = body;
     const savedVideos: IE_Video[] = [];
     const skippedFiles: string[] = [];
 
@@ -62,6 +62,7 @@ export class VideoService {
         video_path: `http://192.168.18.42:6868/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
         // video_path: `http://192.168.0.96:6868/uploads/${date}/${season}/${stage}/${area}/${article}/${file.originalname}`,
         created_by,
+        factory,
         created_at: new Date(),
       });
       const saved = await this.videosRepository.save(videoRecord);

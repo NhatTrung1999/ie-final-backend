@@ -120,7 +120,8 @@ export class ExportExcelService {
     // const data = await this.tableCtRepository.find();
     const query = this.tableCtRepository
       .createQueryBuilder('tablect')
-      .leftJoin(IE_Video, 'video', 'tablect.id_video = video.id');
+      .leftJoinAndSelect('tablect.video', 'video')
+      .addSelect(['video.season', 'video.article', 'video.factory']);
 
     if (date_from && date_to) {
       query.andWhere('video.date >= :date_from AND video.date <= :date_to', {
@@ -149,8 +150,38 @@ export class ExportExcelService {
     }
 
     const data = await query.getMany();
-    // console.log(data);
     const timeStudyData: IE_TableCT[] = data;
+
+    worksheet.getCell('C3').value = data[0].video.season[0];
+    worksheet.getCell('C3').style = {
+      border: { ...defaultBorder },
+      alignment: { ...defaultAlignment },
+      fill: {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fff9e7' },
+      },
+    };
+    worksheet.getCell('C4').value = data[0].video.factory[0];
+    worksheet.getCell('C4').style = {
+      border: { ...defaultBorder },
+      alignment: { ...defaultAlignment },
+      fill: {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fff9e7' },
+      },
+    };
+    worksheet.getCell('I4').value = data[0].video.article[0];
+    worksheet.getCell('I4').style = {
+      border: { ...defaultBorder },
+      alignment: { ...defaultAlignment },
+      fill: {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fff9e7' },
+      },
+    };
 
     let startRow = 13;
     const totalCT: CTData = {
@@ -166,6 +197,7 @@ export class ExportExcelService {
       CT10: 0,
       AvgCT: 0,
     };
+
     timeStudyData.map((item) => {
       worksheet.mergeCells(`A${startRow}:B${startRow}`);
       worksheet.getCell(`A${startRow}`).value = item.no;
@@ -657,7 +689,7 @@ export class ExportExcelService {
     stage: string,
     area: string,
     article: string,
-    account: string
+    account: string,
   ) {
     const query = this.tableCtRepository
       .createQueryBuilder('tablect')
@@ -683,11 +715,11 @@ export class ExportExcelService {
       query.andWhere('video.article LIKE :article', {
         article: `%${article}%`,
       });
-      if (account) {
-        query.andWhere('tablect.created_by = :account', {
-          account,
-        });
-      }
+    if (account) {
+      query.andWhere('tablect.created_by = :account', {
+        account,
+      });
+    }
 
     const dataLSA = await query.getMany();
 
