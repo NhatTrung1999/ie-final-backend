@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTablectDto } from './dto/create-tablect.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IE_TableCT } from './entities/tablect.entity';
+import {
+  IE_Department_MachineType,
+  IE_TableCT,
+} from './entities/tablect.entity';
 import { Repository } from 'typeorm';
 import { IE_HistoryPlayback } from '../history-playback/entities/history-playback.entity';
 import { IE_Video } from '../video/entities/video.entity';
@@ -13,6 +16,8 @@ export class TablectService {
     private tablectRepository: Repository<IE_TableCT>,
     @InjectRepository(IE_HistoryPlayback)
     private historyPlaybackReposity: Repository<IE_HistoryPlayback>,
+    @InjectRepository(IE_Department_MachineType)
+    private machineTypeReposity: Repository<IE_Department_MachineType>,
   ) {}
 
   async createTablect(createTablectDto: CreateTablectDto[]): Promise<void> {
@@ -54,6 +59,7 @@ export class TablectService {
       va: item.va,
       is_save: item.is_save,
       confirm: item.confirm,
+      machine_type: item.machine_type || '',
       video_path: item.video_path,
       created_by: item.created_by || '',
       created_at: new Date(),
@@ -132,5 +138,9 @@ export class TablectService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async getMachineType() {
+    return await this.machineTypeReposity.find();
   }
 }

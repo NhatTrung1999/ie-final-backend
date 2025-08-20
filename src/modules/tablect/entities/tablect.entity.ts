@@ -32,6 +32,9 @@ export class IE_TableCT {
   @Column({ type: 'nvarchar', length: 'max', nullable: true })
   va: string;
 
+  @Column({ type: 'nvarchar', length: 'max', nullable: true })
+  machine_type: string;
+
   @Column({ nullable: true })
   confirm: string;
 
@@ -56,4 +59,40 @@ export class IE_TableCT {
     (historyPlayback) => historyPlayback.tablect,
   )
   historyPlaybacks: IE_HistoryPlayback[];
+}
+
+@Entity('IE_Department')
+export class IE_Department {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'nvarchar', length: 255, nullable: true })
+  department: string;
+
+  @Column({ type: 'smalldatetime', nullable: true })
+  created_at: Date;
+}
+
+@Entity('IE_Department_MachineType')
+export class IE_Department_MachineType {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'nvarchar', length: 255, nullable: true })
+  department: string;
+
+  @Column({ type: 'nvarchar', nullable: true })
+  machine_type_en: string;
+
+  @Column({ type: 'nvarchar', nullable: true })
+  machine_type_cn: string;
+
+  @Column({ type: 'nvarchar', nullable: true })
+  machine_type_vn: string;
+
+  @Column({ type: 'nvarchar', length: 255, nullable: true })
+  created_by: string;
+
+  @Column({ type: 'smalldatetime', nullable: true })
+  created_at: Date;
 }

@@ -45,6 +45,11 @@ export class TablectController {
     };
   }
 
+  @Get('get-machine-type')
+  async getMachineType() {
+    return this.tablectService.getMachineType()
+  }
+
   @Post('save')
   async save(@Body() createTablectDto: CreateTablectDto): Promise<void> {
     // console.log(createTablectDto);

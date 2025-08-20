@@ -7,6 +7,7 @@ export class CreateTablectDto {
   va: string;
   is_save?: boolean;
   confirm: string;
+  machine_type: string;
   video_path: string;
   created_by: string;
   created_at: string;
