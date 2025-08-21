@@ -141,6 +141,10 @@ export class TablectService {
   }
 
   async getMachineType() {
-    return await this.machineTypeReposity.find();
+    try {
+      return await this.machineTypeReposity.find();
+    } catch (error) {
+      throw error;
+    }
   }
 }
